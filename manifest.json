@@ -1,6 +1,6 @@
 {
   "name": "Hello World",
-  "short_name": "Hello",
+  "short_name": "PushHello",
   "icons": [
       {
           "src": "/android-chrome-192x192.png",
