@@ -42,7 +42,7 @@ function urlB64ToUint8Array(base64String) {
   return outputArray;
 }
 
-self.addEventListener('push', function(event) {
+self.addEventListener('push', function (event) {
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
@@ -56,7 +56,7 @@ self.addEventListener('push', function(event) {
   event.waitUntil(self.registration.showNotification(title, options));
 });
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', function (event) {
   console.log('[Service Worker] Notification click Received.');
 
   event.notification.close();
@@ -66,7 +66,7 @@ self.addEventListener('notificationclick', function(event) {
   );
 });
 
-self.addEventListener('pushsubscriptionchange', function(event) {
+self.addEventListener('pushsubscriptionchange', function (event) {
   console.log('[Service Worker]: \'pushsubscriptionchange\' event fired.');
   const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
   event.waitUntil(
@@ -74,10 +74,10 @@ self.addEventListener('pushsubscriptionchange', function(event) {
       userVisibleOnly: true,
       applicationServerKey: applicationServerKey
     })
-    .then(function(newSubscription) {
-      // TODO: Send to application server
-      console.log('[Service Worker] New subscription: ', newSubscription);
-    })
+      .then(function (newSubscription) {
+        // TODO: Send to application server
+        console.log('[Service Worker] New subscription: ', newSubscription);
+      })
   );
 });
 
@@ -89,19 +89,24 @@ var filesToCache = [
 ];
 
 
-self.addEventListener('install', function(e) {
+self.addEventListener('install', function (e) {
   e.waitUntil(
-    caches.open(cacheName).then(function(cache) {
+    caches.open(cacheName).then(function (cache) {
       return cache.addAll(filesToCache);
     })
   );
 });
 
 /* Serve cached content when offline */
-self.addEventListener('fetch', function(e) {
+self.addEventListener('fetch', function (e) {
   e.respondWith(
-    caches.match(e.request).then(function(response) {
+    caches.match(e.request).then(function (response) {
       return response || fetch(e.request);
     })
   );
+});
+
+self.addEventListener('beforeinstallprompt', function (e) {
+  console.log('Hoi');
+  prompt();
 });
