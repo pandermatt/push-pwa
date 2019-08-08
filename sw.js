@@ -106,7 +106,8 @@ self.addEventListener('fetch', function (e) {
   );
 });
 
-self.addEventListener('beforeinstallprompt', function (e) {
-  console.log('Hoi');
-  prompt();
+self.addEventListener('beforeinstallprompt', function(e) {
+  console.log('beforeinstallprompt Event fired');
+  e.preventDefault();
+  return false;
 });
